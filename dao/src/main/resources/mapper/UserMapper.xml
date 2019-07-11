@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.usst.gaoxing.dao.UserMapper" >
+<!--  <cache type="com.example.demo.config.RedisCache"></cache>-->
+  <resultMap id="BaseResultMap" type="cn.edu.usst.gaoxing.bean.User" >
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="copyrationId" property="copyrationid" jdbcType="INTEGER" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId, userName, copyrationId, gender
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <select id="selectUserByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where userName=#{username,jdbcType=VARCHAR}
+  </select>
+  <select id="selectSelective" resultMap="BaseResultMap" parameterType="cn.edu.usst.gaoxing.bean.User" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where
+    1=1
+    <if test="userid != null" >
+      and  userId = #{userid,jdbcType=INTEGER}
+    </if>
+    <if test="username != null" >
+      and   userName = #{username,jdbcType=VARCHAR}
+    </if>
+    <if test="copyrationid != null" >
+      and   copyrationId = #{copyrationid,jdbcType=VARCHAR}
+    </if>
+    <if test="gender != null" >
+      and   gender = #{gender,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where userId = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.usst.gaoxing.bean.User">
+    insert into user (userId, userName, copyrationId,gender
+      )
+    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{copyrationid,jdbcType=INTEGER},#{gender,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.usst.gaoxing.bean.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="copyrationid != null" >
+        copyrationId,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="copyrationid != null" >
+        #{copyrationid,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.usst.gaoxing.bean.User">
+    update user
+    <set >
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="copyrationid != null" >
+        copyrationId = #{copyrationid,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null" >
+        gender= #{gender,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.usst.gaoxing.bean.User" >
+    update user
+    set userName = #{username,jdbcType=VARCHAR},
+      copyrationId = #{copyrationid,jdbcType=INTEGER},
+      gender= #{gender,jdbcType=VARCHAR},
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByUserIds" parameterType="java.util.List">
+    delete from user
+    where userId in
+    <foreach collection="list" item="item"   open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+  <select id="findByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+  </select>
+</mapper>
