@@ -4,6 +4,8 @@ package  cn.edu.usst.gaoxing;
  *@Author GaoXilong
  *@Date 2019/7/10 12:52
  */
+
+
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
