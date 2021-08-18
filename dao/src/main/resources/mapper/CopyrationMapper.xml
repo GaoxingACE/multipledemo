@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.usst.gaoxing.dao.CopyrationMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.usst.gaoxing.bean.Copyration" >
+    <id column="copyrationId" property="copyrationid" jdbcType="INTEGER" />
+    <result column="copyrationName" property="copyrationname" jdbcType="VARCHAR" />
+    <result column="parentCopyrationId" property="parentcopyrationid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    copyrationId, copyrationName, parentCopyrationId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from copyration
+    where copyrationId = #{copyrationid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from copyration
+    where copyrationId = #{copyrationid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.usst.gaoxing.bean.Copyration" >
+    insert into copyration (copyrationId, copyrationName, parentCopyrationId
+      )
+    values (#{copyrationid,jdbcType=INTEGER}, #{copyrationname,jdbcType=VARCHAR}, #{parentcopyrationid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.usst.gaoxing.bean.Copyration" >
+    insert into copyration
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="copyrationid != null" >
+        copyrationId,
+      </if>
+      <if test="copyrationname != null" >
+        copyrationName,
+      </if>
+      <if test="parentcopyrationid != null" >
+        parentCopyrationId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="copyrationid != null" >
+        #{copyrationid,jdbcType=INTEGER},
+      </if>
+      <if test="copyrationname != null" >
+        #{copyrationname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentcopyrationid != null" >
+        #{parentcopyrationid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.usst.gaoxing.bean.Copyration" >
+    update copyration
+    <set >
+      <if test="copyrationname != null" >
+        copyrationName = #{copyrationname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentcopyrationid != null" >
+        parentCopyrationId = #{parentcopyrationid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where copyrationId = #{copyrationid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.usst.gaoxing.bean.Copyration" >
+    update copyration
+    set copyrationName = #{copyrationname,jdbcType=VARCHAR},
+      parentCopyrationId = #{parentcopyrationid,jdbcType=INTEGER}
+    where copyrationId = #{copyrationid,jdbcType=INTEGER}
+  </update><select id="getCopyrationList" resultMap="BaseResultMap">
+   select
+  <include refid="Base_Column_List" />
+  from copyration where parentCopyrationId=0
+</select>
+</mapper>
